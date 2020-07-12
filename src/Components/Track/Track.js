@@ -5,14 +5,19 @@ class Track extends React.Component {
     constructor(props) {
         super(props);
         this.addTrack = this.addTrack.bind(this);
+        this.removeTrack = this.removeTrack.bind(this);
     }
 
-    addTrack(this.props.track) {
-        return this.props.onAdd(this.props.track);
+    addTrack() {
+        return this.props.onAdd = this.props.track;
+    }
+
+    removeTrack() {
+        return this.props.onRemove = this.props.track;
     }
 
     renderAction() {
-        return this.props.isRemoval ? <button className="Track-action" onClick={this.addTrack}>+</button> : <button className="Track-action">-</button>;
+        return this.props.isRemoval ? <button className="Track-action" onClick={this.addTrack}>+</button> : <button onClick={this.removeTrack} className="Track-action">-</button>;
     }
 
     render() {

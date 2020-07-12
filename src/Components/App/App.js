@@ -14,6 +14,7 @@ class App extends Component {
       playlistTracks: []
     }
     this.addTrack = this.addTrack.bind(this);
+    this.removeTrack = this.removeTrack.bind(this);
   }
 
   addTrack(track) {
@@ -21,6 +22,15 @@ class App extends Component {
       return;
     } else {
       this.state.playlistTracks.push(track);
+    }
+  }
+
+  removeTrack(track) {
+    if (this.state.playlistTracks.find(savedTrack => savedTrack.id === track.id)) {
+      const index = this.state.playlistTracks.inxedOf(savedTrack);
+      this.state.playlistTracks.splice(index, 1);
+    } else {
+      return;
     }
   }
 
@@ -32,7 +42,7 @@ class App extends Component {
         <SearchBar />
         <div className="App-playlist">
         <SearchResults onAdd={this.addTrack} searchResults={this.state.searchResults} />
-        <Playlist olaylistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} />
+        <Playlist onRemove={this.removeTrack} PlaylistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} />
     </div>
   </div>
 </div>
