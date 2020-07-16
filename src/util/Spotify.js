@@ -40,6 +40,49 @@ const Spotify = {
                 };
                 return tracks;
             })
+    },
+
+    savePlaylist(name, trackURIs) {
+        if (!name && !trackURIs) {
+            return;
+        };
+        const token = accessToken;
+        const headers = {Authorization: `Bearer ${token}`};
+        fetch('https://api.spotify.com/v1/me', {
+            headers: headers
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(jsonResponse => {
+                const userID = jsonResponse.id;
+                const data = { name: name };
+                fetch(`https://api.spotify.com//v1/users/${userID}/playlists`, {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Content-Type': 'application/json', Authorization: `Bearer ${token}`}
+                })
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(jsonResponse => {
+                        const playlistID = jsonResponse.id;
+                        const data = { uris: trackURIs};
+                        fetch(`/v1/playlists/${playlistID}/tracks`,{
+                            method: 'POST',
+                            body: JSON.stringify(data),
+                            headers: {
+                            'Content-Type': 'application/json', Authorization: `Bearer ${token}`}
+                        })
+                            .then(response => {
+                                return response.json();
+                            })
+                            .then(jsonResponse => {
+                                return jsonResponse.snapshot_id;
+                            })
+                    })
+            })
     }
 
 }
