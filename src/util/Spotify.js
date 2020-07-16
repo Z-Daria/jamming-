@@ -7,12 +7,12 @@ let accessToken = '';
 const Spotify = {
 
     getAccessToken() {
+        const url = window.location.href;
+        const regexp1 = /access_token=([^&]*)/;
+        const regexp2 = /expires_in=([^&]*)/;
         if (accessToken) {
             return accessToken;
         } else if (url.match(regexp1) && url.match(regexp2)) {
-            const url = window.location.href;
-            const regexp1 = /access_token=([^&]*)/;
-            const regexp2 = /expires_in=([^&]*)/;
             accessToken = url.match(regexp1)[0];
             const expiresIn = url.match(regexp2)[0];
             window.setTimeout(() => accessToken = '', expiresIn * 1000);
@@ -31,7 +31,7 @@ const Spotify = {
                 return response.json();
             })
             .then(jsonResponse => {
-                const tracks = [];
+                let tracks = [];
                 if (jsonResponse.tracks) {
                     tracks = jsonResponse.tracks.map(track => {
                         return track;
