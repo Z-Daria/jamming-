@@ -17,6 +17,7 @@ class App extends Component {
     this.removeTrack = this.removeTrack.bind(this);
     this.savePlaylist = this.savePlaylist.bind(this);
     this.updatePlaylistName = this.updatePlaylistName.bind(this);
+    this.search = this.search.bind(this);
   }
 
   addTrack(track) {
@@ -29,7 +30,7 @@ class App extends Component {
 
   removeTrack(track) {
     if (this.state.playlistTracks.find(savedTrack => savedTrack.id === track.id)) {
-      const index = this.state.playlistTracks.inxedOf(savedTrack);
+      const index = this.state.playlistTracks.inxedOf(track);
       this.state.playlistTracks.splice(index, 1);
     } else {
       return;
@@ -38,7 +39,7 @@ class App extends Component {
 
   updatePlaylistName(name) {
     this.setState({
-      playlistName = name
+      playlistName: name
     })
   }
 
@@ -48,12 +49,16 @@ class App extends Component {
     })
   }
 
+  search(term) {
+    console.log(term);
+  }
+
   render() {
     return (
       <div>
         <h1>Ja<span className="highlight">mmm</span>ing</h1>
         <div className="App">
-        <SearchBar />
+        <SearchBar onSearch={this.search} />
         <div className="App-playlist">
         <SearchResults onAdd={this.addTrack} searchResults={this.state.searchResults} />
         <Playlist onChangeName={this.updatePlaylistName} onSave={this.savePlaylist} onRemove={this.removeTrack} PlaylistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} />
